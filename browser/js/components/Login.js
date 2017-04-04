@@ -1,13 +1,28 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
+import axios from 'axios'
+import { setCurrentUser } from '../redux/login'
+import store from '../store'
 
 /* -----------------    COMPONENT     ------------------ */
 
 class Login extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      email: '',
+      password: ''
+    }
     this.onLoginSubmit = this.onLoginSubmit.bind(this);
+  }
+
+  changeEmail(emailQuery) {
+    this.setState({email: emailQuery})
+  }
+
+  changePassword(passwordQuery) {
+    this.setState({password: passwordQuery})
   }
 
   render() {
@@ -23,6 +38,7 @@ class Login extends React.Component {
                 type="email"
                 className="form-control"
                 required
+                onChange={event => {this.changeEmail(event.target.value)}}
               />
             </div>
             <div className="form-group">
@@ -32,6 +48,7 @@ class Login extends React.Component {
                   type="password"
                   className="form-control"
                   required
+                  onChange={event => {this.changePassword(event.target.value)}}
                 />
             </div>
             <button type="submit" className="btn btn-block btn-primary">{message}</button>
@@ -60,7 +77,7 @@ class Login extends React.Component {
   onLoginSubmit(event) {
     const { message } = this.props;
     event.preventDefault();
-    console.log(`${message} isn't implemented yet`);
+    store.dispatch(setCurrentUser(this.state))
   }
 }
 

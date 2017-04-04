@@ -7,7 +7,7 @@ router.post('/', function(req, res, next) {
   User.findOne({
     where: {
       email: req.body.email,
-      password: req.body.passwrod
+      password: req.body.password
     }
   })
   .then(function(user) {
@@ -15,9 +15,14 @@ router.post('/', function(req, res, next) {
       return res.sendStatus(401)
     }
     req.session.userId = user.id
-    res.sendStatus(204)
+    res.status(200).send(user)
   })
   .catch(next)
+})
+
+router.get('/logout', function(req, res, next) {
+  req.session.userId = null
+  res.sendStatus(200)
 })
 
 module.exports = router
