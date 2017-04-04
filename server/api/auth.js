@@ -11,7 +11,7 @@ router.get('/me', function(req, res, next) {
     .catch(next)
   }
   else {
-    next()
+    res.sendStatus(204)
   }
 })
 
