@@ -78,6 +78,7 @@ class Login extends React.Component {
     const { message } = this.props;
     event.preventDefault();
     store.dispatch(setCurrentUser(this.state))
+    browserHistory.push('/');
   }
 }
 

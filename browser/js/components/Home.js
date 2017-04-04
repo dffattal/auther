@@ -1,9 +1,10 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
-const Home = () => (
+const HomeContainer = (props) => (
   <div className="home">
     <div className="banner text-center text-inverted">
-      <h1>A U T H E R</h1>
+      <h1>{props.userName}</h1>
       <h1><small>a fake application for collaborative authoring</small></h1>
     </div>
     <div className="about">
@@ -47,4 +48,7 @@ const Home = () => (
   </div>
 );
 
-export default Home;
+const mapState = (storeState) => ({ message: 'Log in', userName: storeState.login.name || 'A U T H E R'});
+const mapDispatch = null;
+
+export default connect(mapState, mapDispatch)(HomeContainer);

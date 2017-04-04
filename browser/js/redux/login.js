@@ -40,3 +40,11 @@ export const removeCurrentUser = () => dispatch => {
         })
         .catch(console.error)
 }
+
+export const onLoadSetCurrentUser = () => dispatch => {
+  axios.get('/api/auth/me')
+      .then(res=> {
+        dispatch(setCurrent(res.data))
+      })
+      .catch(console.error)
+}

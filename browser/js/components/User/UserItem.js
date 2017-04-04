@@ -37,6 +37,7 @@ class UserItem extends React.Component {
           </Link>
           <div className="media-right media-middle">
             <button
+                disabled = {!this.props.isAdmin}
                 className="btn btn-default"
                 onClick={this.removeUserCallback}>
               <span className="glyphicon glyphicon-remove" />
@@ -56,7 +57,12 @@ class UserItem extends React.Component {
 
 /* -----------------    CONTAINER     ------------------ */
 
-const mapState = ({ stories }) => ({ stories });
+const mapState = function (storeState) {
+  return {
+    stories: storeState.stores,
+    isAdmin: storeState.login.isAdmin || false
+  };
+}
 
 const mapDispatch = { removeUser, removeStory };
 
