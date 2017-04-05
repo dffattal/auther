@@ -60,6 +60,21 @@ passport.serializeUser(function (user, done) {
   done(null, user.id)
 });
 
+passport.deserializeUser(function(id, done) {
+  User.findById(id)
+  .then(user => done(null, user))
+  .catch(done)
+})
+
+// app.use(function (req, res, next) {
+//   if (req.user) {
+//     req.login(req.user, function(err) {
+
+//     })
+//   }
+//   next()
+// })
+
 app.use(function (req, res, next) {
   if(!req.session.activeTime) {
     req.session.activeTime = new Date()
@@ -78,10 +93,15 @@ app.get('/auth/google', passport.authenticate('google', { scope: 'email' }));
 // handle the callback after Google has authenticated the user
 app.get('/auth/google/callback',
   passport.authenticate('google', {
-    successRedirect: '/', // or wherever
+    successRedirect: '/auth/google/login', // or wherever
     failureRedirect: '/' // or wherever
   })
 );
+
+app.get('/auth/google/login', function (req, res, next) {
+  req.session.userId = req.user.id
+  res.redirect('/')
+})
 
 app.use('/login', require('./login-router'))
 
